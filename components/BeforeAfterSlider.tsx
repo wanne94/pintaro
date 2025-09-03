@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -10,6 +10,7 @@ interface BeforeAfterSliderProps {
   beforeLabel?: string;
   afterLabel?: string;
   className?: string;
+  priority?: boolean;
 }
 
 const BeforeAfterSlider = ({
@@ -17,7 +18,8 @@ const BeforeAfterSlider = ({
   afterImage,
   beforeLabel = 'Vorher',
   afterLabel = 'Nachher',
-  className = ''
+  className = '',
+  priority = false
 }: BeforeAfterSliderProps) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -57,7 +59,8 @@ const BeforeAfterSlider = ({
           alt={afterLabel}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+          priority={priority}
         />
         <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
           {afterLabel}
@@ -74,7 +77,8 @@ const BeforeAfterSlider = ({
           alt={beforeLabel}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+          priority={priority}
         />
         <div className="absolute top-4 left-4 bg-gray-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
           {beforeLabel}
@@ -102,4 +106,4 @@ const BeforeAfterSlider = ({
   );
 };
 
-export default BeforeAfterSlider;
+export default memo(BeforeAfterSlider);

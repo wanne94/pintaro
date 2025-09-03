@@ -1,8 +1,11 @@
 'use client';
 
+import { useState, memo, lazy, Suspense } from 'react';
 import Image from 'next/image';
 import { Home, Building2, Briefcase, Camera, Award } from 'lucide-react';
 import BeforeAfterSlider from './BeforeAfterSlider';
+
+const ImageModal = lazy(() => import('./ImageModal'));
 
 type TranslationValue = string | string[] | { [key: string]: unknown };
 
@@ -12,6 +15,8 @@ interface GalleryProps {
 }
 
 const Gallery = ({ messages }: GalleryProps) => {
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  
   const t = (key: string) => {
     const keys = key.split('.');
     let value: unknown = messages;
@@ -39,16 +44,16 @@ const Gallery = ({ messages }: GalleryProps) => {
       id: 2,
       category: 'facades',
       title: 'Mehrfamilienhaus',
-      beforeImage: '/images/gallery/facades/facade2-before.jpg',
-      afterImage: '/images/gallery/facades/facade2-after.jpg',
+      beforeImage: '/images/gallery/facades/facade2-before-new.jpg',
+      afterImage: '/images/gallery/facades/facade2-after-new.jpg',
       description: 'Renovierung eines mehrstöckigen Gebäudes'
     },
     {
       id: 3,
       category: 'interior',
       title: 'Großraum Renovierung',
-      beforeImage: '/images/gallery/interiors/interior1-before.jpg',
-      afterImage: '/images/gallery/interiors/interior1-after.jpg',
+      beforeImage: '/images/gallery/specialty/geometric-before.jpg',
+      afterImage: '/images/gallery/specialty/geometric-after.jpg',
       description: 'Geometrische Wandgestaltung'
     },
     {
@@ -61,32 +66,130 @@ const Gallery = ({ messages }: GalleryProps) => {
     }
   ];
 
-  const specialtyWorks = [
+  const galleryImages = [
+    // Previous specialty images
     {
       id: 1,
       image: '/images/gallery/specialty/mountains-wall.jpg',
-      title: 'Kreative Wandgestaltung',
-      description: 'Berglandschaft im Kinderzimmer'
+      title: 'Kreative Wandgestaltung'
     },
     {
       id: 2,
       image: '/images/gallery/specialty/geometric-orange.jpg',
-      title: 'Geometrische Muster',
-      description: 'Moderne Akzentwand'
+      title: 'Geometrische Muster'
     },
     {
       id: 3,
       image: '/images/gallery/specialty/textured-plaster1.jpg',
-      title: 'Strukturputz',
-      description: 'Hochwertige Putzarbeiten'
+      title: 'Strukturputz'
     },
     {
       id: 4,
       image: '/images/gallery/specialty/textured-plaster2.jpg',
-      title: 'Dekorativer Putz',
-      description: 'Exklusive Wandgestaltung'
+      title: 'Dekorativer Putz'
+    },
+    // Additional gallery images
+    {
+      id: 5,
+      image: '/images/gallery/additional/facade-bricklaying.jpg',
+      title: 'Fassade Mauerarbeiten'
+    },
+    {
+      id: 6,
+      image: '/images/gallery/additional/facade-building.jpg',
+      title: 'Fassadenbau'
+    },
+    {
+      id: 7,
+      image: '/images/gallery/additional/flooring-laminate-samples.jpg',
+      title: 'Laminat Muster'
+    },
+    {
+      id: 8,
+      image: '/images/gallery/additional/flooring-laminate-tools.jpg',
+      title: 'Bodenverlegung'
+    },
+    {
+      id: 9,
+      image: '/images/gallery/additional/flooring-oak-wood.jpg',
+      title: 'Eichenholzboden'
+    },
+    {
+      id: 10,
+      image: '/images/gallery/additional/general-renovation-planks.jpg',
+      title: 'Renovierungsarbeiten'
+    },
+    {
+      id: 11,
+      image: '/images/gallery/additional/general-tile-installation.jpg',
+      title: 'Fliesenverlegung'
+    },
+    {
+      id: 12,
+      image: '/images/gallery/additional/painting-brush-bucket.jpg',
+      title: 'Malerarbeiten'
+    },
+    {
+      id: 13,
+      image: '/images/gallery/additional/painting-female-painter.jpg',
+      title: 'Professionelle Malerei'
+    },
+    {
+      id: 14,
+      image: '/images/gallery/additional/painting-tools.jpg',
+      title: 'Malerwerkzeuge'
+    },
+    {
+      id: 15,
+      image: '/images/gallery/additional/plastering-hand-glove.jpg',
+      title: 'Verputzarbeiten'
+    },
+    {
+      id: 16,
+      image: '/images/gallery/additional/plastering-worker-wall.jpg',
+      title: 'Wandverputzung'
+    },
+    {
+      id: 17,
+      image: '/images/gallery/additional/facade2-after.jpg',
+      title: 'Fassade Nachher'
+    },
+    {
+      id: 18,
+      image: '/images/gallery/additional/facade2-before.jpg',
+      title: 'Fassade Vorher'
+    },
+    {
+      id: 19,
+      image: '/images/gallery/additional/interior1-after.jpg',
+      title: 'Innenraum Nachher'
+    },
+    {
+      id: 20,
+      image: '/images/gallery/additional/interior1-before.jpg',
+      title: 'Innenraum Vorher'
     }
   ];
+
+  const handleImageClick = (index: number) => {
+    setSelectedImageIndex(index);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImageIndex(null);
+  };
+
+  const handlePreviousImage = () => {
+    if (selectedImageIndex !== null && selectedImageIndex > 0) {
+      setSelectedImageIndex(selectedImageIndex - 1);
+    }
+  };
+
+  const handleNextImage = () => {
+    if (selectedImageIndex !== null && selectedImageIndex < galleryImages.length - 1) {
+      setSelectedImageIndex(selectedImageIndex + 1);
+    }
+  };
 
   const projectCategories = [
     {
@@ -163,12 +266,13 @@ const Gallery = ({ messages }: GalleryProps) => {
             Vorher / Nachher Projekte
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {beforeAfterProjects.map((project) => (
+            {beforeAfterProjects.map((project, index) => (
               <div key={project.id} className="space-y-4">
                 <BeforeAfterSlider
                   beforeImage={project.beforeImage}
                   afterImage={project.afterImage}
                   className="shadow-xl"
+                  priority={index < 2}
                 />
                 <div className="text-center">
                   <h4 className="font-bold text-lg text-gray-800">{project.title}</h4>
@@ -179,26 +283,28 @@ const Gallery = ({ messages }: GalleryProps) => {
           </div>
         </div>
 
-        {/* Specialty Works Section */}
+        {/* Gallery Section */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-center mb-12 text-gray-800">
-            Spezialarbeiten & Dekorative Gestaltung
+            Galerija
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {specialtyWorks.map((work) => (
-              <div key={work.id} className="group">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {galleryImages.map((image, index) => (
+              <div key={image.id} className="group">
+                <div 
+                  className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
+                  onClick={() => handleImageClick(index)}
+                >
                   <Image
-                    src={work.image}
-                    alt={work.title}
+                    src={image.image}
+                    alt={image.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 250px"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <h4 className="font-bold text-lg">{work.title}</h4>
-                      <p className="text-sm">{work.description}</p>
+                      <h4 className="font-bold text-sm md:text-base">{image.title}</h4>
                     </div>
                   </div>
                 </div>
@@ -206,6 +312,22 @@ const Gallery = ({ messages }: GalleryProps) => {
             ))}
           </div>
         </div>
+
+        {/* Image Modal */}
+        {selectedImageIndex !== null && (
+          <Suspense fallback={null}>
+            <ImageModal
+              isOpen={true}
+              imageSrc={galleryImages[selectedImageIndex].image}
+              imageAlt={galleryImages[selectedImageIndex].title}
+              onClose={handleCloseModal}
+              onPrevious={handlePreviousImage}
+              onNext={handleNextImage}
+              hasPrevious={selectedImageIndex > 0}
+              hasNext={selectedImageIndex < galleryImages.length - 1}
+            />
+          </Suspense>
+        )}
 
         {/* CTA Section */}
         <div className="text-center bg-gradient-to-r from-green-50 to-blue-50 rounded-3xl p-12">
@@ -241,4 +363,4 @@ const Gallery = ({ messages }: GalleryProps) => {
   );
 };
 
-export default Gallery;
+export default memo(Gallery);

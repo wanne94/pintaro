@@ -1,49 +1,58 @@
-# Project Plan: Gallery Before/After & Logo Integration
+# Performance Optimization Plan for pintaro.ch
 
-## Overview
-Implement a before/after gallery showcasing Pintaro's painting and plastering work, and integrate the Pintaro logo into the website.
+## Priority 1: Critical Image Optimizations (Immediate Impact)
 
-## TODO List
+### TODO: Enable Next.js Image Optimization
+- [ ] Remove `unoptimized: true` from next.config.ts
+- [ ] Configure proper image domains if needed
+- [ ] Test that static export still works with optimization
 
-### Phase 1: Gallery Enhancement
-- [x] Identify and pair before/after images from the provided folder
-- [x] Analyze images to determine which show "before" state and which show "after" state
-- [x] Create proper image pairs for each project
-- [x] Create a new gallery data structure for before/after images
-- [x] Copy selected work images to public/images/gallery folder
-- [x] Build BeforeAfterSlider component with interactive comparison
-- [x] Update Gallery component to display before/after projects
-- [x] Add project details (type, location, duration)
+### TODO: Optimize Image Sizes and Formats
+- [ ] Convert large images to WebP format
+- [ ] Create responsive image sizes (mobile, tablet, desktop)
+- [ ] Implement proper `sizes` attribute for all Next Image components
+- [ ] Add priority loading for above-the-fold images
 
-### Phase 2: Logo Integration  
-- [x] Add Pintaro logo to Header component
-- [ ] Update favicon with logo mark
-- [x] Add logo to Footer component
-- [x] Ensure proper responsive sizing
+## Priority 2: React Performance Optimizations
 
-### Phase 3: Content & Styling
-- [ ] Organize images into categories (facade, interior, floor, plastering)
-- [ ] Add German/Italian translations for new gallery content
-- [ ] Implement gallery filtering by project type
-- [ ] Add animations and hover effects
-- [ ] Optimize images for performance
+### TODO: Add React.memo to Heavy Components
+- [ ] Wrap Gallery component with React.memo
+- [ ] Memoize BeforeAfterSlider component
+- [ ] Memoize ImageModal component
+- [ ] Add useMemo for expensive computations (beforeAfterProjects, galleryImages arrays)
 
-## Technical Approach
-- Use Next.js Image component for optimization
-- Implement slider using CSS and minimal JS
-- Maintain existing Tailwind/shadcn design system
-- Keep mobile-first responsive approach
+### TODO: Implement Lazy Loading
+- [ ] Use dynamic imports for ImageModal (loads on demand)
+- [ ] Lazy load BeforeAfterSlider components below fold
+- [ ] Implement intersection observer for gallery images
 
-## Files to Modify
-1. `/components/Gallery.tsx` - Main gallery update
-2. `/components/Header.tsx` - Add logo
-3. `/components/Footer.tsx` - Add logo
-4. `/public/images/gallery/` - New folder for work images
-5. `/messages/de.json` & `/messages/it.json` - Translations
+## Priority 3: Bundle and Code Splitting
 
-## Success Criteria
-- Smooth before/after slider interaction
-- Professional presentation of work portfolio
-- Logo properly integrated with existing brand colors
-- Fully responsive on all devices
-- Fast loading with optimized images
+### TODO: Optimize JavaScript Bundle
+- [ ] Analyze bundle with @next/bundle-analyzer
+- [ ] Dynamic import heavy components
+- [ ] Review and optimize third-party imports
+- [ ] Implement route-based code splitting
+
+### TODO: Optimize CSS and Fonts
+- [ ] Review Tailwind CSS purge configuration
+- [ ] Optimize font loading strategy
+- [ ] Remove unused CSS classes
+- [ ] Consider critical CSS extraction
+
+## Priority 4: Additional Optimizations
+
+### TODO: Add Loading States and Suspense
+- [ ] Implement loading skeletons for images
+- [ ] Add React Suspense boundaries
+- [ ] Progressive enhancement for interactions
+
+### TODO: Caching and Headers
+- [ ] Configure proper cache headers for static assets
+- [ ] Implement service worker for offline support
+- [ ] Add resource hints (preconnect, prefetch)
+
+## Notes
+- Current performance score: 2/10 (Critical)
+- Estimated improvement after Priority 1 & 2: 70-80% faster load times
+- Images currently 213MB unoptimized vs 4.2MB optimized potential

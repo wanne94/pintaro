@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 
 type TranslationValue = string | string[] | { [key: string]: unknown };
@@ -80,6 +81,77 @@ const Contact = ({ messages }: ContactProps) => {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {t('subtitle')}
           </p>
+        </div>
+
+        {/* Two Rows with alternating image-text layout */}
+        <div className="mb-16 space-y-12">
+          {/* First Row: Image on left, text on right */}
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-xl">
+              <Image 
+                src="/images/pintaro-car-logo.jpg"
+                alt="Pintaro Fahrzeug mit Logo"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                Ihr zuverlässiger Partner
+              </h3>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Mit über 20 Jahren Erfahrung sind wir Ihr vertrauenswürdiger Partner für alle Maler- und Gipserarbeiten. 
+                Unser professionelles Team steht für Qualität, Präzision und Zuverlässigkeit.
+              </p>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5ab324] rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700">Professionelle Beratung und Planung</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5ab324] rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700">Hochwertige Materialien und Ausführung</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5ab324] rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700">Pünktliche und saubere Arbeitsweise</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Second Row: Text on left, image on right */}
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="space-y-4 md:order-1">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                Kostenlose Beratung
+              </h3>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Wir sind für Sie da! Kontaktieren Sie uns für eine kostenlose Beratung und ein unverbindliches Angebot. 
+                Gemeinsam finden wir die perfekte Lösung für Ihr Projekt.
+              </p>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5ab324] rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700">Individuelle Lösungen nach Ihren Wünschen</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5ab324] rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700">Transparente und faire Preisgestaltung</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5ab324] rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700">Garantie auf alle ausgeführten Arbeiten</span>
+              </div>
+            </div>
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-xl bg-white md:order-2">
+              <Image 
+                src="/images/pintaro-car-branding.png"
+                alt="Pintaro Fahrzeugbeschriftung"
+                fill
+                className="object-contain hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
