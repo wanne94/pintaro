@@ -24,21 +24,21 @@ const About = ({ messages }: AboutProps) => {
   
 
   return (
-    <section id="uber-uns" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
+    <section id="uber-uns" className="section-padding bg-white">
+      <div className="container-base">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
               {t('title')}
             </h2>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
               {t('paragraph1')}
             </p>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
               {t('paragraph2')}
             </p>
             {t('paragraph3') !== 'paragraph3' && (
-              <p className="text-lg text-gray-600 mb-6">
+              <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
                 {t('paragraph3')}
               </p>
             )}

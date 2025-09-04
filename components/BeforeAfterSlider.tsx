@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, memo } from 'react';
-import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -54,7 +54,7 @@ const BeforeAfterSlider = ({
     >
       {/* After Image (bottom layer) */}
       <div className="absolute inset-0">
-        <Image
+        <OptimizedImage
           src={afterImage}
           alt={afterLabel}
           fill
@@ -72,7 +72,7 @@ const BeforeAfterSlider = ({
         className="absolute inset-0"
         style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
-        <Image
+        <OptimizedImage
           src={beforeImage}
           alt={beforeLabel}
           fill

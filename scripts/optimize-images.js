@@ -1,183 +1,150 @@
-const sharp = require('sharp');
-const fs = require('fs').promises;
-const path = require('path');
+#!/usr/bin/env node
 
-const IMAGE_CONFIG = {
-  hero: { width: 1920, height: 1080, quality: 85 },
-  card: { width: 800, height: 600, quality: 85 },
-  gallery: { width: 1200, height: 800, quality: 85 },
-  thumbnail: { width: 400, height: 300, quality: 80 }
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+// Configuration
+const IMAGES_DIR = path.join(process.cwd(), 'public/images');
+const OPTIMIZED_DIR = path.join(IMAGES_DIR, 'optimized');
+const SIZES = {
+  thumbnail: 400,
+  mobile: 768,
+  tablet: 1024,
+  desktop: 1920
 };
 
-const SOURCE_DIR = path.join(__dirname, '../public/images/services');
-const OUTPUT_DIR = path.join(__dirname, '../public/images/optimized');
+// Quality settings
+const JPEG_QUALITY = 85;
+const WEBP_QUALITY = 85;
 
-async function optimizeImage(inputPath, outputName, config) {
-  const formats = ['jpeg', 'webp'];
-  
-  for (const format of formats) {
-    const outputPath = path.join(OUTPUT_DIR, `${outputName}.${format}`);
-    
-    await sharp(inputPath)
-      .resize(config.width, config.height, {
-        fit: 'cover',
-        position: 'center'
-      })
-      .toFormat(format, { 
-        quality: config.quality,
-        mozjpeg: format === 'jpeg'
-      })
-      .toFile(outputPath);
-    
-    const stats = await fs.stat(outputPath);
-    const sizeMB = (stats.size / 1024 / 1024).toFixed(2);
-    console.log(`✓ Created ${outputName}.${format} (${sizeMB}MB)`);
+// Ensure optimized directory exists
+if (!fs.existsSync(OPTIMIZED_DIR)) {
+  fs.mkdirSync(OPTIMIZED_DIR, { recursive: true });
+}
+
+// Check if ImageMagick is installed
+function checkDependencies() {
+  try {
+    execSync('which convert', { stdio: 'pipe' });
+    console.log('✅ ImageMagick found');
+    return true;
+  } catch {
+    console.error('❌ ImageMagick not found. Installing...');
+    try {
+      execSync('sudo apt-get update && sudo apt-get install -y imagemagick', { stdio: 'inherit' });
+      return true;
+    } catch (error) {
+      console.error('Failed to install ImageMagick. Please install it manually: sudo apt-get install imagemagick');
+      return false;
+    }
   }
 }
 
-async function generateBlurPlaceholder(inputPath, outputName) {
-  const outputPath = path.join(OUTPUT_DIR, `${outputName}-placeholder.jpg`);
+// Get all image files
+function getAllImages(dir, fileList = []) {
+  const files = fs.readdirSync(dir);
   
-  const { data, info } = await sharp(inputPath)
-    .resize(20, null, { 
-      withoutEnlargement: true 
-    })
-    .blur(5)
-    .toBuffer({ resolveWithObject: true });
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    
+    if (stat.isDirectory() && !filePath.includes('optimized')) {
+      getAllImages(filePath, fileList);
+    } else if (stat.isFile() && /\.(jpg|jpeg|png)$/i.test(file)) {
+      fileList.push(filePath);
+    }
+  });
   
-  const base64 = `data:image/${info.format};base64,${data.toString('base64')}`;
+  return fileList;
+}
+
+// Optimize single image
+function optimizeImage(inputPath) {
+  const relativePath = path.relative(IMAGES_DIR, inputPath);
+  const parsedPath = path.parse(relativePath);
+  const outputDir = path.join(OPTIMIZED_DIR, parsedPath.dir);
   
-  // Save placeholder data
-  const placeholderPath = path.join(OUTPUT_DIR, 'placeholders.json');
-  let placeholders = {};
+  // Create output directory
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  
+  const baseName = parsedPath.name;
+  const ext = parsedPath.ext.toLowerCase();
+  
+  console.log(`📸 Processing: ${relativePath}`);
   
   try {
-    const existing = await fs.readFile(placeholderPath, 'utf-8');
-    placeholders = JSON.parse(existing);
-  } catch (e) {
-    // File doesn't exist yet
+    // Original optimized version
+    const outputPath = path.join(outputDir, `${baseName}${ext}`);
+    const resizeCmd = `convert "${inputPath}" -strip -quality ${JPEG_QUALITY} -resize "1920x1920>" "${outputPath}"`;
+    execSync(resizeCmd);
+    
+    // WebP version
+    const webpPath = path.join(outputDir, `${baseName}.webp`);
+    const webpCmd = `convert "${inputPath}" -strip -quality ${WEBP_QUALITY} -resize "1920x1920>" -define webp:method=6 "${webpPath}"`;
+    execSync(webpCmd);
+    
+    // Get file sizes for comparison
+    const originalSize = fs.statSync(inputPath).size / 1024 / 1024;
+    const optimizedSize = fs.statSync(outputPath).size / 1024 / 1024;
+    const webpSize = fs.statSync(webpPath).size / 1024 / 1024;
+    
+    console.log(`  ✅ Original: ${originalSize.toFixed(2)}MB → Optimized: ${optimizedSize.toFixed(2)}MB → WebP: ${webpSize.toFixed(2)}MB`);
+    console.log(`  💾 Saved: ${(originalSize - webpSize).toFixed(2)}MB (${((1 - webpSize/originalSize) * 100).toFixed(0)}%)`);
+    
+    return {
+      original: originalSize,
+      optimized: optimizedSize,
+      webp: webpSize
+    };
+  } catch (error) {
+    console.error(`  ❌ Failed to optimize ${relativePath}:`, error.message);
+    return null;
   }
-  
-  placeholders[outputName] = base64;
-  await fs.writeFile(placeholderPath, JSON.stringify(placeholders, null, 2));
-  
-  console.log(`✓ Generated blur placeholder for ${outputName}`);
 }
 
+// Main function
 async function main() {
-  // Create output directory
-  await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  console.log('🚀 Starting image optimization...\n');
   
-  // Image optimization map
-  const imageMap = {
-    // Hero image
-    'hero-renovation.jpg': {
-      sizes: ['hero'],
-      name: 'hero-renovation'
-    },
-    
-    // Service card images
-    'painting-female-painter.jpg': {
-      sizes: ['card', 'gallery'],
-      name: 'painting-main'
-    },
-    'plastering-worker-wall.jpg': {
-      sizes: ['card', 'gallery'],
-      name: 'plastering-main'
-    },
-    'facade-building.jpg': {
-      sizes: ['card', 'gallery'],
-      name: 'facade-main'
-    },
-    'painting-tools.jpg': {
-      sizes: ['card', 'gallery'],
-      name: 'decorative-main'
-    },
-    'general-renovation-planks.jpg': {
-      sizes: ['card', 'gallery'],
-      name: 'mold-main'
-    },
-    'flooring-oak-wood.jpg': {
-      sizes: ['card', 'gallery'],
-      name: 'flooring-main'
-    },
-    
-    // Gallery images
-    'painting-brush-bucket.jpg': {
-      sizes: ['gallery', 'thumbnail'],
-      name: 'painting-gallery-1'
-    },
-    'plastering-hand-glove.jpg': {
-      sizes: ['gallery', 'thumbnail'],
-      name: 'plastering-gallery-1'
-    },
-    'facade-bricklaying.jpg': {
-      sizes: ['gallery', 'thumbnail'],
-      name: 'facade-gallery-1'
-    },
-    'flooring-laminate-samples.jpg': {
-      sizes: ['gallery', 'thumbnail'],
-      name: 'flooring-gallery-1'
-    },
-    'flooring-laminate-tools.jpg': {
-      sizes: ['gallery', 'thumbnail'],
-      name: 'flooring-gallery-2'
-    },
-    'general-tile-installation.jpg': {
-      sizes: ['gallery', 'thumbnail'],
-      name: 'mold-gallery-1'
-    }
-  };
+  // Check dependencies
+  if (!checkDependencies()) {
+    process.exit(1);
+  }
   
-  console.log('Starting image optimization...\n');
+  // Get all images
+  const images = getAllImages(IMAGES_DIR);
+  console.log(`Found ${images.length} images to optimize\n`);
   
-  for (const [filename, config] of Object.entries(imageMap)) {
-    const inputPath = path.join(SOURCE_DIR, filename);
-    
-    try {
-      const stats = await fs.stat(inputPath);
-      const originalSizeMB = (stats.size / 1024 / 1024).toFixed(2);
-      console.log(`\nProcessing ${filename} (${originalSizeMB}MB):`);
-      
-      // Generate different sizes
-      for (const size of config.sizes) {
-        const outputName = `${config.name}-${size}`;
-        await optimizeImage(inputPath, outputName, IMAGE_CONFIG[size]);
-      }
-      
-      // Generate blur placeholder
-      await generateBlurPlaceholder(inputPath, config.name);
-      
-    } catch (error) {
-      console.error(`Error processing ${filename}:`, error.message);
+  let totalOriginal = 0;
+  let totalOptimized = 0;
+  let totalWebP = 0;
+  let successCount = 0;
+  
+  // Process each image
+  for (const imagePath of images) {
+    const result = optimizeImage(imagePath);
+    if (result) {
+      totalOriginal += result.original;
+      totalOptimized += result.optimized;
+      totalWebP += result.webp;
+      successCount++;
     }
   }
   
-  console.log('\n✅ Image optimization complete!');
-  
-  // Calculate total size reduction
-  const originalFiles = await fs.readdir(SOURCE_DIR);
-  let originalTotal = 0;
-  
-  for (const file of originalFiles) {
-    if (file.endsWith('.jpg') || file.endsWith('.png')) {
-      const stats = await fs.stat(path.join(SOURCE_DIR, file));
-      originalTotal += stats.size;
-    }
-  }
-  
-  const optimizedFiles = await fs.readdir(OUTPUT_DIR);
-  let optimizedTotal = 0;
-  
-  for (const file of optimizedFiles) {
-    if (file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.webp')) {
-      const stats = await fs.stat(path.join(OUTPUT_DIR, file));
-      optimizedTotal += stats.size;
-    }
-  }
-  
-  const reduction = ((1 - optimizedTotal / originalTotal) * 100).toFixed(1);
-  console.log(`\n📊 Size reduction: ${(originalTotal / 1024 / 1024).toFixed(1)}MB → ${(optimizedTotal / 1024 / 1024).toFixed(1)}MB (${reduction}% smaller)`);
+  // Summary
+  console.log('\n' + '='.repeat(60));
+  console.log('📊 Optimization Summary:');
+  console.log('='.repeat(60));
+  console.log(`✅ Successfully optimized: ${successCount}/${images.length} images`);
+  console.log(`📦 Original total size: ${totalOriginal.toFixed(2)}MB`);
+  console.log(`📦 Optimized JPEG/PNG size: ${totalOptimized.toFixed(2)}MB`);
+  console.log(`📦 WebP size: ${totalWebP.toFixed(2)}MB`);
+  console.log(`💾 Total savings with WebP: ${(totalOriginal - totalWebP).toFixed(2)}MB (${((1 - totalWebP/totalOriginal) * 100).toFixed(0)}%)`);
+  console.log('\n✨ Image optimization complete!');
 }
 
+// Run the script
 main().catch(console.error);

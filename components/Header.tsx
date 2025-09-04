@@ -37,11 +37,11 @@ const Header = ({ messages, locale }: HeaderProps) => {
 
   return (
     <header className="fixed w-full top-0 z-50 bg-white shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+      <div className="container-base">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href={locale === 'de' ? '/' : `/${locale}`} className="flex items-center">
-            <div className="relative w-48 h-14">
+            <div className="relative w-32 sm:w-40 md:w-48 h-10 sm:h-12 md:h-14">
               <Image
                 src="/images/pintaro-logo.png"
                 alt="Pintaro - Maler & Gipser"
@@ -94,13 +94,13 @@ const Header = ({ messages, locale }: HeaderProps) => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="md:hidden py-4 border-t">
-            <div className="flex flex-col space-y-4">
+          <nav className="md:hidden py-4 border-t animate-slideDown">
+            <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-gray-700 font-medium transition-colors py-2 hover:text-[#5ab324]"
+                  className="text-gray-700 font-medium transition-all py-4 px-2 min-h-[48px] flex items-center hover:text-[#5ab324] hover:bg-gray-50 rounded-lg active:bg-gray-100"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -108,7 +108,7 @@ const Header = ({ messages, locale }: HeaderProps) => {
               ))}
               <a
                 href="tel:+41765203556"
-                className="flex items-center justify-center gap-2 text-white px-6 py-3 rounded-lg transition-colors" style={{backgroundColor: '#5ab324'}}
+                className="flex items-center justify-center gap-2 text-white px-6 py-4 min-h-[56px] rounded-lg transition-all font-medium mt-2 active:scale-95" style={{backgroundColor: '#5ab324'}}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a9420'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5ab324'}
               >

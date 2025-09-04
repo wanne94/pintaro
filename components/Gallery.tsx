@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, memo, lazy, Suspense } from 'react';
-import Image from 'next/image';
+import { useState, memo, lazy, Suspense, useMemo } from 'react';
 import { Home, Building2, Briefcase, Camera, Award } from 'lucide-react';
 import BeforeAfterSlider from './BeforeAfterSlider';
+import LazyImage from './LazyImage';
 
 const ImageModal = lazy(() => import('./ImageModal'));
 
@@ -31,145 +31,145 @@ const Gallery = ({ messages }: GalleryProps) => {
   };
 
 
-  const beforeAfterProjects = [
+  const beforeAfterProjects = useMemo(() => [
     {
       id: 1,
       category: 'facades',
       title: 'Fassadensanierung',
-      beforeImage: '/images/gallery/facades/facade1-before.jpg',
-      afterImage: '/images/gallery/facades/facade1-after.jpg',
+      beforeImage: '/images/optimized/gallery/facades/facade1-before.jpg',
+      afterImage: '/images/optimized/gallery/facades/facade1-after.jpg',
       description: 'Komplette Fassadenerneuerung mit Gerüstbau'
     },
     {
       id: 2,
       category: 'facades',
       title: 'Mehrfamilienhaus',
-      beforeImage: '/images/gallery/facades/facade2-before-new.jpg',
-      afterImage: '/images/gallery/facades/facade2-after-new.jpg',
+      beforeImage: '/images/optimized/gallery/facades/facade2-before-new.jpg',
+      afterImage: '/images/optimized/gallery/facades/facade2-after-new.jpg',
       description: 'Renovierung eines mehrstöckigen Gebäudes'
     },
     {
       id: 3,
       category: 'interior',
       title: 'Großraum Renovierung',
-      beforeImage: '/images/gallery/specialty/geometric-before.jpg',
-      afterImage: '/images/gallery/specialty/geometric-after.jpg',
+      beforeImage: '/images/optimized/gallery/specialty/geometric-before.jpg',
+      afterImage: '/images/optimized/gallery/specialty/geometric-after.jpg',
       description: 'Geometrische Wandgestaltung'
     },
     {
       id: 4,
       category: 'interior',
       title: 'Dachgeschoss Ausbau',
-      beforeImage: '/images/gallery/interiors/interior2-before.jpg',
-      afterImage: '/images/gallery/interiors/interior2-after.jpg',
+      beforeImage: '/images/optimized/gallery/interiors/interior2-before.jpg',
+      afterImage: '/images/optimized/gallery/interiors/interior2-after.jpg',
       description: 'Kompletter Dachgeschossausbau'
     }
-  ];
+  ], []);
 
-  const galleryImages = [
+  const galleryImages = useMemo(() => [
     // Previous specialty images
     {
       id: 1,
-      image: '/images/gallery/specialty/mountains-wall.jpg',
+      image: '/images/optimized/gallery/specialty/mountains-wall.jpg',
       title: 'Kreative Wandgestaltung'
     },
     {
       id: 2,
-      image: '/images/gallery/specialty/geometric-orange.jpg',
+      image: '/images/optimized/gallery/specialty/geometric-orange.jpg',
       title: 'Geometrische Muster'
     },
     {
       id: 3,
-      image: '/images/gallery/specialty/textured-plaster1.jpg',
+      image: '/images/optimized/gallery/specialty/textured-plaster1.jpg',
       title: 'Strukturputz'
     },
     {
       id: 4,
-      image: '/images/gallery/specialty/textured-plaster2.jpg',
+      image: '/images/optimized/gallery/specialty/textured-plaster2.jpg',
       title: 'Dekorativer Putz'
     },
     // Additional gallery images
     {
       id: 5,
-      image: '/images/gallery/additional/facade-bricklaying.jpg',
+      image: '/images/optimized/gallery/additional/facade-bricklaying.jpg',
       title: 'Fassade Mauerarbeiten'
     },
     {
       id: 6,
-      image: '/images/gallery/additional/facade-building.jpg',
+      image: '/images/optimized/gallery/additional/facade-building.jpg',
       title: 'Fassadenbau'
     },
     {
       id: 7,
-      image: '/images/gallery/additional/flooring-laminate-samples.jpg',
+      image: '/images/optimized/gallery/additional/flooring-laminate-samples.jpg',
       title: 'Laminat Muster'
     },
     {
       id: 8,
-      image: '/images/gallery/additional/flooring-laminate-tools.jpg',
+      image: '/images/optimized/gallery/additional/flooring-laminate-tools.jpg',
       title: 'Bodenverlegung'
     },
     {
       id: 9,
-      image: '/images/gallery/additional/flooring-oak-wood.jpg',
+      image: '/images/optimized/gallery/additional/flooring-oak-wood.jpg',
       title: 'Eichenholzboden'
     },
     {
       id: 10,
-      image: '/images/gallery/additional/general-renovation-planks.jpg',
+      image: '/images/optimized/gallery/additional/general-renovation-planks.jpg',
       title: 'Renovierungsarbeiten'
     },
     {
       id: 11,
-      image: '/images/gallery/additional/general-tile-installation.jpg',
+      image: '/images/optimized/gallery/additional/general-tile-installation.jpg',
       title: 'Fliesenverlegung'
     },
     {
       id: 12,
-      image: '/images/gallery/additional/painting-brush-bucket.jpg',
+      image: '/images/optimized/gallery/additional/painting-brush-bucket.jpg',
       title: 'Malerarbeiten'
     },
     {
       id: 13,
-      image: '/images/gallery/additional/painting-female-painter.jpg',
+      image: '/images/optimized/gallery/additional/painting-female-painter.jpg',
       title: 'Professionelle Malerei'
     },
     {
       id: 14,
-      image: '/images/gallery/additional/painting-tools.jpg',
+      image: '/images/optimized/gallery/additional/painting-tools.jpg',
       title: 'Malerwerkzeuge'
     },
     {
       id: 15,
-      image: '/images/gallery/additional/plastering-hand-glove.jpg',
+      image: '/images/optimized/gallery/additional/plastering-hand-glove.jpg',
       title: 'Verputzarbeiten'
     },
     {
       id: 16,
-      image: '/images/gallery/additional/plastering-worker-wall.jpg',
+      image: '/images/optimized/gallery/additional/plastering-worker-wall.jpg',
       title: 'Wandverputzung'
     },
     {
       id: 17,
-      image: '/images/gallery/additional/facade2-after.jpg',
+      image: '/images/optimized/gallery/additional/facade2-after.jpg',
       title: 'Fassade Nachher'
     },
     {
       id: 18,
-      image: '/images/gallery/additional/facade2-before.jpg',
+      image: '/images/optimized/gallery/additional/facade2-before.jpg',
       title: 'Fassade Vorher'
     },
     {
       id: 19,
-      image: '/images/gallery/additional/interior1-after.jpg',
+      image: '/images/optimized/gallery/additional/interior1-after.jpg',
       title: 'Innenraum Nachher'
     },
     {
       id: 20,
-      image: '/images/gallery/additional/interior1-before.jpg',
+      image: '/images/optimized/gallery/additional/interior1-before.jpg',
       title: 'Innenraum Vorher'
     }
-  ];
+  ], []);
 
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
@@ -213,8 +213,8 @@ const Gallery = ({ messages }: GalleryProps) => {
   ];
 
   return (
-    <section id="gallery" className="py-20 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-4">
+    <section id="gallery" className="section-padding bg-gradient-to-b from-white to-gray-50">
+      <div className="container-base">
         {/* Header Section */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 mb-4">
@@ -224,11 +224,11 @@ const Gallery = ({ messages }: GalleryProps) => {
             </span>
           </div>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             {t('title')}
           </h2>
           
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
             {t('subtitle')}
           </p>
 
@@ -236,7 +236,7 @@ const Gallery = ({ messages }: GalleryProps) => {
           <div className="max-w-4xl mx-auto mb-12">
             <p className="text-lg text-gray-700 font-medium mb-8">{t('description')}</p>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {projectCategories.map((category, index) => {
                 const Icon = category.icon;
                 return (
@@ -265,7 +265,7 @@ const Gallery = ({ messages }: GalleryProps) => {
           <h3 className="text-2xl font-bold text-center mb-12 text-gray-800">
             Vorher / Nachher Projekte
           </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {beforeAfterProjects.map((project, index) => (
               <div key={project.id} className="space-y-4">
                 <BeforeAfterSlider
@@ -288,19 +288,18 @@ const Gallery = ({ messages }: GalleryProps) => {
           <h3 className="text-2xl font-bold text-center mb-12 text-gray-800">
             Galerija
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
             {galleryImages.map((image, index) => (
-              <div key={image.id} className="group">
+              <div key={image.id} className="group min-h-[200px] sm:min-h-0">
                 <div 
-                  className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
-                  onClick={() => handleImageClick(index)}
+                  className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all min-h-[200px] sm:min-h-0"
                 >
-                  <Image
+                  <LazyImage
                     src={image.image}
                     alt={image.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 250px"
+                    onClick={() => handleImageClick(index)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="absolute bottom-4 left-4 right-4 text-white">

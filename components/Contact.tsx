@@ -30,11 +30,65 @@ const Contact = ({ messages }: ContactProps) => {
     service: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      // Get current locale from URL or default to 'de'
+      const locale = window.location.pathname.split('/')[1] || 'de';
+      
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          locale: locale,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: locale === 'de' ? 'Vielen Dank! Wir werden uns bald bei Ihnen melden.' :
+                   locale === 'it' ? 'Grazie! Vi contatteremo presto.' :
+                   'Thank you! We will contact you soon.'
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: '',
+        });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: locale === 'de' ? 'Fehler beim Senden. Bitte versuchen Sie es später erneut.' :
+                   locale === 'it' ? 'Errore nell\'invio. Riprova più tardi.' :
+                   'Error sending message. Please try again later.'
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -72,13 +126,13 @@ const Contact = ({ messages }: ContactProps) => {
   ];
 
   return (
-    <section id="kontakt" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section id="kontakt" className="section-padding bg-gray-50">
+      <div className="container-base">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
             {t('title')}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             {t('subtitle')}
           </p>
         </div>
@@ -97,10 +151,10 @@ const Contact = ({ messages }: ContactProps) => {
               />
             </div>
             <div className="space-y-4">
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
                 Ihr zuverlässiger Partner
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 Mit über 20 Jahren Erfahrung sind wir Ihr vertrauenswürdiger Partner für alle Maler- und Gipserarbeiten. 
                 Unser professionelles Team steht für Qualität, Präzision und Zuverlässigkeit.
               </p>
@@ -122,10 +176,10 @@ const Contact = ({ messages }: ContactProps) => {
           {/* Second Row: Text on left, image on right */}
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 md:order-1">
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
                 Kostenlose Beratung
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 Wir sind für Sie da! Kontaktieren Sie uns für eine kostenlose Beratung und ein unverbindliches Angebot. 
                 Gemeinsam finden wir die perfekte Lösung für Ihr Projekt.
               </p>
@@ -162,7 +216,7 @@ const Contact = ({ messages }: ContactProps) => {
               </h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                       {t('form.name')} *
@@ -174,7 +228,7 @@ const Contact = ({ messages }: ContactProps) => {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
+                      className="w-full px-4 py-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
                       placeholder={t('form.name')}
                     />
                   </div>
@@ -190,7 +244,7 @@ const Contact = ({ messages }: ContactProps) => {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
+                      className="w-full px-4 py-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
                       placeholder="+41 00 000 00 00"
                     />
                   </div>
@@ -207,7 +261,7 @@ const Contact = ({ messages }: ContactProps) => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
+                    className="w-full px-4 py-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
                     placeholder="email@example.ch"
                   />
                 </div>
@@ -221,17 +275,17 @@ const Contact = ({ messages }: ContactProps) => {
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent text-gray-900 appearance-none cursor-pointer"
+                    className="w-full px-4 py-4 text-base bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent text-gray-900 appearance-none cursor-pointer"
                     style={{ backgroundImage: "url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"%23666\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"%3E%3Cpath d=\"m6 9 6 6 6-6\"%3E%3C/path%3E%3C/svg%3E')", backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', paddingRight: '3rem' }}
                   >
                     <option value="" className="text-gray-600">{t('form.selectService')}</option>
-                    <option value="malerarbeiten" className="text-gray-900">{t('form.services.painting')}</option>
-                    <option value="gipserarbeiten" className="text-gray-900">{t('form.services.plastering')}</option>
-                    <option value="fassadenrenovation" className="text-gray-900">{t('form.services.facade')}</option>
-                    <option value="dekorative" className="text-gray-900">{t('form.services.decorative')}</option>
-                    <option value="schimmelsanierung" className="text-gray-900">{t('form.services.mold')}</option>
-                    <option value="bodenbelaege" className="text-gray-900">{t('form.services.flooring')}</option>
-                    <option value="andere" className="text-gray-900">{t('form.services.other')}</option>
+                    <option value="polishing" className="text-gray-900">{t('form.services.polishing')}</option>
+                    <option value="dent_removal" className="text-gray-900">{t('form.services.dentRemoval')}</option>
+                    <option value="small_paint_jobs" className="text-gray-900">{t('form.services.smallPaint')}</option>
+                    <option value="complete_paint_jobs" className="text-gray-900">{t('form.services.completePaint')}</option>
+                    <option value="car_wrapping" className="text-gray-900">{t('form.services.wrapping')}</option>
+                    <option value="lettering" className="text-gray-900">{t('form.services.lettering')}</option>
+                    <option value="other" className="text-gray-900">{t('form.services.other')}</option>
                   </select>
                 </div>
 
@@ -245,19 +299,45 @@ const Contact = ({ messages }: ContactProps) => {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent"
+                    className="w-full px-4 py-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5ab324] focus:border-transparent resize-none"
                     placeholder={t('form.messagePlaceholder')}
                   />
                 </div>
 
+                {submitStatus.type && (
+                  <div className={`p-4 rounded-lg ${
+                    submitStatus.type === 'success' 
+                      ? 'bg-green-100 text-green-700 border border-green-200' 
+                      : 'bg-red-100 text-red-700 border border-red-200'
+                  }`}>
+                    {submitStatus.message}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 text-white px-6 py-4 rounded-lg transition-colors font-semibold" style={{backgroundColor: '#5ab324'}}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a9420'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5ab324'}
+                  disabled={isSubmitting}
+                  className={`w-full flex items-center justify-center gap-2 text-white text-base px-6 py-4 min-h-[56px] rounded-lg transition-colors font-semibold ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`} 
+                  style={{backgroundColor: isSubmitting ? '#4a9420' : '#5ab324'}}
+                  onMouseEnter={(e) => !isSubmitting && (e.currentTarget.style.backgroundColor = '#4a9420')}
+                  onMouseLeave={(e) => !isSubmitting && (e.currentTarget.style.backgroundColor = '#5ab324')}
                 >
-                  <Send className="w-5 h-5" />
-                  {t('form.submit')}
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span>{window.location.pathname.split('/')[1] === 'it' ? 'Invio in corso...' : window.location.pathname.split('/')[1] === 'en' ? 'Sending...' : 'Wird gesendet...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      {t('form.submit')}
+                    </>
+                  )}
                 </button>
               </form>
             </div>

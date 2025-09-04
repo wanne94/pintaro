@@ -39,3 +39,38 @@ select option:hover {
 select::-ms-expand {
   display: none;
 }
+
+/* Mobile menu animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Consistent container and spacing system */
+@layer components {
+  .container-base {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-padding {
+    @apply py-16 sm:py-20;
+  }
+  
+  .content-max-width {
+    @apply max-w-7xl mx-auto;
+  }
+  
+  .text-max-width {
+    @apply max-w-3xl mx-auto;
+  }
+}

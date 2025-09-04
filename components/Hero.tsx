@@ -29,14 +29,14 @@ const Hero = ({ messages }: HeroProps) => {
 
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-gray-50 to-white">
-      <div className="container mx-auto px-4">
+      <div className="container-base">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               {t('title')}{' '}
               <span style={{color: '#5ab324'}}>{t('titleHighlight')}</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed">
               {t('subtitle')}
             </p>
             
@@ -62,7 +62,7 @@ const Hero = ({ messages }: HeroProps) => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link 
                 href="#kontakt" 
-                className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-lg transition-colors font-semibold" style={{backgroundColor: '#5ab324'}}
+                className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 min-h-[56px] rounded-lg transition-colors font-semibold text-base" style={{backgroundColor: '#5ab324'}}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#4a9420'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5ab324'}
               >
@@ -71,7 +71,7 @@ const Hero = ({ messages }: HeroProps) => {
               </Link>
               <Link 
                 href="#dienstleistungen" 
-                className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-colors font-semibold"
+                className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-8 py-4 min-h-[56px] rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-colors font-semibold text-base"
               >
                 {t('cta.services')}
               </Link>
