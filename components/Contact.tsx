@@ -45,6 +45,7 @@ const Contact = ({ messages }: ContactProps) => {
       // Get current locale from URL or default to 'de'
       const locale = window.location.pathname.split('/')[1] || 'de';
       
+      // Use real email endpoint
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -56,7 +57,7 @@ const Contact = ({ messages }: ContactProps) => {
         }),
       });
 
-      const data = await response.json();
+      await response.json();
 
       if (response.ok) {
         setSubmitStatus({
@@ -81,7 +82,7 @@ const Contact = ({ messages }: ContactProps) => {
                    'Error sending message. Please try again later.'
         });
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus({
         type: 'error',
         message: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.'

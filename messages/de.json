@@ -52,12 +52,12 @@
       "decorative": {
         "title": "Dekorative Techniken",
         "description": "Kreative Gestaltungstechniken für einzigartige und individuelle Raumkonzepte.",
-        "features": ["Spachteltechniken", "Lasurtechniken", "Strukturputz", "Wandtattoos"]
+        "features": ["Spachteltechniken", "Lasurtechniken", "Strukturputz"]
       },
       "mold": {
         "title": "Schimmelsanierung",
         "description": "Professionelle Schimmelentfernung und nachhaltige Prävention für gesunde Räume.",
-        "features": ["Schimmelentfernung", "Ursachenanalyse", "Präventivbehandlung", "Luftentfeuchtung"]
+        "features": ["Schimmelentfernung", "Ursachenanalyse", "Präventivbehandlung"]
       },
       "flooring": {
         "title": "Bodenbeläge",
@@ -126,6 +126,39 @@
     "cta": "Bilder sagen mehr als Worte – sehen Sie sich unsere Arbeiten an!",
     "ctaButton": "Jetzt Kontakt aufnehmen"
   },
+  "compositeGallery": {
+    "title": "Vorher / Nachher Projekte",
+    "subtitle": "Sehen Sie die beeindruckenden Transformationen, die wir für unsere Kunden erreicht haben.",
+    "galleryTitle": "Arbeitsgalerie",
+    "beforeAfterSubtitle": "Vorher und Nachher",
+    "viewProject": "Projekt ansehen",
+    "completedProjects": "Abgeschlossene Projekte",
+    "categories": {
+      "interior": "Innenraum",
+      "facade": "Fassade",
+      "complete": "Komplett"
+    },
+    "project1": {
+      "title": "Komplette Wohnungsrenovierung",
+      "description": "Moderne Transformation von Wohnräumen"
+    },
+    "project2": {
+      "title": "Gebäude-Fassadenerneuerung",
+      "description": "Komplette Rekonstruktion der Gebäude-Außenfassade"
+    },
+    "project3": {
+      "title": "Innendesign-Renovierung", 
+      "description": "Stilvolle Innenrenovierung mit modernem Ansatz"
+    },
+    "project4": {
+      "title": "Komplette Immobilienrenovierung",
+      "description": "Vollständige Transformation vom Fundament bis zur Vollendung"
+    },
+    "project5": {
+      "title": "Fassaden-Transformation",
+      "description": "Außenbereich-Makeover mit dauerhafter Qualität"
+    }
+  },
   "contact": {
     "title": "Kontaktieren Sie uns",
     "subtitle": "Wir sind für Sie da! Kontaktieren Sie uns für eine kostenlose Beratung und ein unverbindliches Angebot.",
@@ -192,6 +225,7 @@
     "ctaSubtitle": "Kontaktieren Sie uns noch heute für eine kostenlose Beratung und ein unverbindliches Angebot.",
     "getQuote": "Kostenloses Angebot",
     "callUs": "Jetzt anrufen",
+    "gallery": "Unsere Arbeiten",
     "painting": {
       "featuresTitle": "Unsere Malerleistungen im Detail",
       "processTitle": "So gehen wir bei Malerarbeiten vor",
@@ -330,9 +364,6 @@
         },
         {
           "description": "Individueller Strukturputz für charaktervolle Oberflächen."
-        },
-        {
-          "description": "Moderne Wandtattoos und Beschriftungen nach Ihren Wünschen."
         }
       ]
     },
@@ -366,9 +397,6 @@
         },
         {
           "description": "Effektive Präventivbehandlung gegen Neubildung."
-        },
-        {
-          "description": "Professionelle Luftentfeuchtung und Klimaregulierung."
         }
       ]
     },
@@ -410,7 +438,7 @@
     }
   },
   "footer": {
-    "description": "Ihr zuverlässiger Partner für professionelle Maler- und Renovationsarbeiten in der ganzen Schweiz.",
+    "description": "Ihr zuverlässiger Partner für professionelle Maler- und Renovationsarbeiten in der Region Bern und Solothurn.",
     "services": "Unsere Leistungen",
     "quickLinks": "Schnelllinks",
     "contact": "Kontakt",
@@ -429,5 +457,46 @@
       "country": "Schweiz"
     },
     "copyright": "© Pintaro.ch. Alle Rechte vorbehalten."
+  },
+  "impressum": {
+    "title": "Impressum",
+    "subtitle": "Angaben gemäß § 5 TMG",
+    "company": "Pintaro GmbH",
+    "address": "Kirchbergstrasse 76",
+    "city": "3400 Burgdorf",
+    "country": "Schweiz",
+    "contact": "Kontakt",
+    "phone": "Telefon: +41 76 520 35 56",
+    "email": "E-Mail: welcome@pintaro.ch",
+    "management": "Geschäftsführung",
+    "manager": "Nasir Selimovic / Flamur Luta",
+    "register": "Handelsregister",
+    "registerInfo": "Handelsregister Bern",
+    "vatId": "Umsatzsteuer-ID",
+    "vatNumber": "CHE-420.432.221 MWST",
+    "disclaimer": "Haftungsausschluss",
+    "disclaimerText": "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich."
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "subtitle": "Informationen zur Datenverarbeitung gemäß DSGVO",
+    "lastUpdated": "Stand: September 2024",
+    "intro": "Der Schutz Ihrer persönlichen Daten ist uns wichtig. In dieser Datenschutzerklärung informieren wir Sie über die Verarbeitung personenbezogener Daten bei der Nutzung unserer Website.",
+    "controller": "Verantwortlicher",
+    "controllerInfo": "Pintaro GmbH, Kirchbergstrasse 76, 3400 Burgdorf, Schweiz. Geschäftsführung: Nasir Selimovic / Flamur Luta. E-Mail: welcome@pintaro.ch",
+    "dataCollection": "Datenerhebung",
+    "dataCollectionText": "Wir erheben personenbezogene Daten, wenn Sie unser Kontaktformular nutzen oder uns direkt kontaktieren. Dies umfasst Name, E-Mail-Adresse, Telefonnummer und Ihre Nachricht.",
+    "purpose": "Zweck der Datenverarbeitung",
+    "purposeText": "Ihre Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage und zur Kontaktaufnahme verwendet. Eine Weitergabe an Dritte erfolgt nicht.",
+    "legalBasis": "Rechtsgrundlage",
+    "legalBasisText": "Die Verarbeitung erfolgt auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) und zur Durchführung vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO).",
+    "storage": "Speicherdauer",
+    "storageText": "Ihre Daten werden gelöscht, sobald sie für die Erfüllung des Zwecks nicht mehr erforderlich sind, spätestens nach 3 Jahren.",
+    "rights": "Ihre Rechte",
+    "rightsText": "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch und Datenübertragbarkeit. Zur Ausübung Ihrer Rechte kontaktieren Sie uns unter info@pintaro.ch.",
+    "cookies": "Cookies",
+    "cookiesText": "Unsere Website verwendet technisch notwendige Cookies für den Betrieb. Diese werden automatisch nach dem Schließen des Browsers gelöscht.",
+    "contact": "Kontakt Datenschutz",
+    "contactText": "Bei Fragen zum Datenschutz wenden Sie sich an: info@pintaro.ch"
   }
 }

@@ -89,12 +89,20 @@ const Services = ({ messages, locale = 'de' }: ServicesProps) => {
             
             const title = t(`items.${service.key}.title`);
             const description = t(`items.${service.key}.description`);
-            const features = [
-              t(`items.${service.key}.features.0`),
-              t(`items.${service.key}.features.1`),
-              t(`items.${service.key}.features.2`),
-              t(`items.${service.key}.features.3`),
-            ];
+            
+            // Get features dynamically from messages
+            const featuresKey = `items.${service.key}.features`;
+            const featuresArray = featuresKey.split('.').reduce((obj: unknown, key) => {
+              return obj && typeof obj === 'object' ? (obj as Record<string, unknown>)[key] : undefined;
+            }, messages as unknown);
+            
+            const features = Array.isArray(featuresArray) 
+              ? featuresArray 
+              : [
+                  t(`items.${service.key}.features.0`),
+                  t(`items.${service.key}.features.1`),
+                  t(`items.${service.key}.features.2`),
+                ].filter(f => f && !f.includes('features'));
             
             const imageKey = service.key as keyof typeof serviceImages;
             const cardImage = getOptimizedImage(serviceImages[imageKey]?.main || service.key, 'card');
@@ -133,7 +141,7 @@ const Services = ({ messages, locale = 'de' }: ServicesProps) => {
                   </p>
                   
                   <ul className="space-y-2 mb-6">
-                    {features.map((feature) => (
+                    {features.filter((feature) => feature && typeof feature === 'string').map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
                         <div className={`w-1.5 h-1.5 rounded-full ${colors.bg} mt-1.5 flex-shrink-0`} />
                         <span className="text-sm text-gray-700">{feature}</span>

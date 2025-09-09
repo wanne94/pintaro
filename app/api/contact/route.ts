@@ -26,7 +26,7 @@ const createTransporter = () => {
   // });
 
   // Example with custom SMTP
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
@@ -60,6 +60,16 @@ export async function POST(request: Request) {
 
     // Create transporter
     const transporter = createTransporter();
+    
+    // Log connection info in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Email configuration:', {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: process.env.SMTP_SECURE === 'true',
+        user: process.env.SMTP_USER
+      });
+    }
 
     // Service names mapping
     const serviceNames: Record<string, Record<string, string>> = {

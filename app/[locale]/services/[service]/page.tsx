@@ -76,7 +76,7 @@ export default async function ServicePage({ params }: PageProps) {
         messages={messages} 
         locale={locale}
       />
-      <Footer messages={messages} />
+      <Footer messages={messages} locale={locale} />
     </>
   );
 }

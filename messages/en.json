@@ -52,12 +52,12 @@
       "decorative": {
         "title": "Decorative Techniques",
         "description": "Creative design techniques for unique and individual room concepts.",
-        "features": ["Spatula techniques", "Glazing techniques", "Textured plaster", "Wall decals"]
+        "features": ["Spatula techniques", "Glazing techniques", "Textured plaster"]
       },
       "mold": {
         "title": "Mold Remediation",
         "description": "Professional mold removal and sustainable prevention for healthy spaces.",
-        "features": ["Mold removal", "Cause analysis", "Preventive treatment", "Dehumidification"]
+        "features": ["Mold removal", "Cause analysis", "Preventive treatment"]
       },
       "flooring": {
         "title": "Floor Coverings",
@@ -126,6 +126,39 @@
     "cta": "Pictures speak louder than words – see our work!",
     "ctaButton": "Contact Us Now"
   },
+  "compositeGallery": {
+    "title": "Before / After Projects", 
+    "subtitle": "See the impressive transformations we've accomplished for our clients.",
+    "galleryTitle": "Work Gallery",
+    "beforeAfterSubtitle": "Before and After",
+    "viewProject": "View Project",
+    "completedProjects": "Completed Projects",
+    "categories": {
+      "interior": "Interior",
+      "facade": "Facade", 
+      "complete": "Complete"
+    },
+    "project1": {
+      "title": "Complete Apartment Renovation",
+      "description": "Modern transformation of living spaces"
+    },
+    "project2": {
+      "title": "Building Facade Renewal", 
+      "description": "Complete reconstruction of exterior building facade"
+    },
+    "project3": {
+      "title": "Interior Design Renovation",
+      "description": "Stylish interior renovation with modern approach"
+    },
+    "project4": {
+      "title": "Complete Property Renovation",
+      "description": "Full transformation from foundation to finish" 
+    },
+    "project5": {
+      "title": "Facade Transformation",
+      "description": "Exterior makeover with lasting quality"
+    }
+  },
   "contact": {
     "title": "Contact Us",
     "subtitle": "We're here for you! Contact us for a free consultation and non-binding quote.",
@@ -192,6 +225,7 @@
     "ctaSubtitle": "Contact us today for a free consultation and non-binding quote.",
     "getQuote": "Get Free Quote",
     "callUs": "Call Now",
+    "gallery": "Our Work",
     "painting": {
       "featuresTitle": "Our Painting Services in Detail",
       "processTitle": "Our Painting Process",
@@ -330,9 +364,6 @@
         },
         {
           "description": "Individual textured plaster for characteristic surfaces."
-        },
-        {
-          "description": "Modern wall decals and lettering according to your wishes."
         }
       ]
     },
@@ -366,9 +397,6 @@
         },
         {
           "description": "Effective preventive treatment against recurrence."
-        },
-        {
-          "description": "Professional dehumidification and climate regulation."
         }
       ]
     },
@@ -410,7 +438,7 @@
     }
   },
   "footer": {
-    "description": "Your reliable partner for professional painting and renovation work throughout Switzerland.",
+    "description": "Your reliable partner for professional painting and renovation work in the Bern and Solothurn region.",
     "services": "Our Services",
     "quickLinks": "Quick Links",
     "contact": "Contact",
@@ -429,5 +457,46 @@
       "country": "Switzerland"
     },
     "copyright": "© Pintaro.ch. All rights reserved."
+  },
+  "impressum": {
+    "title": "Legal Notice",
+    "subtitle": "Information according to Swiss Law",
+    "company": "Pintaro GmbH",
+    "address": "Kirchbergstrasse 76",
+    "city": "3400 Burgdorf",
+    "country": "Switzerland",
+    "contact": "Contact",
+    "phone": "Phone: +41 76 520 35 56",
+    "email": "Email: welcome@pintaro.ch",
+    "management": "Management",
+    "manager": "Nasir Selimovic / Flamur Luta",
+    "register": "Commercial Register",
+    "registerInfo": "Commercial Register Bern",
+    "vatId": "VAT ID",
+    "vatNumber": "CHE-420.432.221 MWST",
+    "disclaimer": "Disclaimer",
+    "disclaimerText": "Despite careful content control, we assume no liability for the content of external links. The operators of the linked pages are solely responsible for their content."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "Information on data processing according to GDPR",
+    "lastUpdated": "Last updated: September 2024",
+    "intro": "The protection of your personal data is important to us. In this privacy policy, we inform you about the processing of personal data when using our website.",
+    "controller": "Controller",
+    "controllerInfo": "Pintaro GmbH, Kirchbergstrasse 76, 3400 Burgdorf, Switzerland. Management: Nasir Selimovic / Flamur Luta. Email: welcome@pintaro.ch",
+    "dataCollection": "Data Collection",
+    "dataCollectionText": "We collect personal data when you use our contact form or contact us directly. This includes name, email address, phone number and your message.",
+    "purpose": "Purpose of Data Processing",
+    "purposeText": "Your data is used exclusively to process your inquiry and for contact purposes. No data is shared with third parties.",
+    "legalBasis": "Legal Basis",
+    "legalBasisText": "Processing is based on your consent (Art. 6 para. 1 lit. a GDPR) and for the performance of pre-contractual measures (Art. 6 para. 1 lit. b GDPR).",
+    "storage": "Storage Period",
+    "storageText": "Your data will be deleted as soon as it is no longer required for the fulfillment of the purpose, at the latest after 3 years.",
+    "rights": "Your Rights",
+    "rightsText": "You have the right to information, correction, deletion, restriction of processing, objection and data portability. To exercise your rights, contact us at info@pintaro.ch.",
+    "cookies": "Cookies",
+    "cookiesText": "Our website uses technically necessary cookies for operation. These are automatically deleted after closing the browser.",
+    "contact": "Privacy Contact",
+    "contactText": "For questions about privacy, contact: info@pintaro.ch"
   }
 }

@@ -52,12 +52,12 @@
       "decorative": {
         "title": "Tecniche Decorative",
         "description": "Tecniche di design creative per concetti di spazio unici e individuali.",
-        "features": ["Tecniche a spatola", "Tecniche di velatura", "Intonaco strutturato", "Adesivi murali"]
+        "features": ["Tecniche a spatola", "Tecniche di velatura", "Intonaco strutturato"]
       },
       "mold": {
         "title": "Rimozione Muffa",
         "description": "Rimozione professionale della muffa e prevenzione sostenibile per spazi sani.",
-        "features": ["Rimozione muffa", "Analisi delle cause", "Trattamento preventivo", "Deumidificazione"]
+        "features": ["Rimozione muffa", "Analisi delle cause", "Trattamento preventivo"]
       },
       "flooring": {
         "title": "Pavimentazioni",
@@ -126,6 +126,39 @@
     "cta": "Le immagini parlano più delle parole – guardate i nostri lavori!",
     "ctaButton": "Contattaci Ora"
   },
+  "compositeGallery": {
+    "title": "Progetti Prima / Dopo",
+    "subtitle": "Guardate le impressionanti trasformazioni che abbiamo realizzato per i nostri clienti.",
+    "galleryTitle": "Galleria dei Lavori",
+    "beforeAfterSubtitle": "Prima e Dopo",
+    "viewProject": "Visualizza Progetto",
+    "completedProjects": "Progetti Completati",
+    "categories": {
+      "interior": "Interno",
+      "facade": "Facciata",
+      "complete": "Completo"
+    },
+    "project1": {
+      "title": "Ristrutturazione Completa Appartamento",
+      "description": "Trasformazione moderna di spazi abitativi"
+    },
+    "project2": {
+      "title": "Rinnovo Facciata Edificio",
+      "description": "Ricostruzione completa della facciata esterna dell'edificio"
+    },
+    "project3": {
+      "title": "Ristrutturazione Design Interni",
+      "description": "Ristrutturazione elegante degli interni con approccio moderno"
+    },
+    "project4": {
+      "title": "Ristrutturazione Completa Immobile",
+      "description": "Trasformazione totale dalle fondamenta al completamento"
+    },
+    "project5": {
+      "title": "Trasformazione Facciata",
+      "description": "Restyling esterno con qualità duratura"
+    }
+  },
   "contact": {
     "title": "Contattaci",
     "subtitle": "Siamo qui per voi! Contattateci per una consulenza gratuita e un preventivo non vincolante.",
@@ -192,6 +225,7 @@
     "ctaSubtitle": "Contattateci oggi per una consulenza gratuita e un preventivo non vincolante.",
     "getQuote": "Preventivo Gratuito",
     "callUs": "Chiama Ora",
+    "gallery": "I Nostri Lavori",
     "painting": {
       "featuresTitle": "I Nostri Servizi di Pittura in Dettaglio",
       "processTitle": "Il Nostro Processo di Pittura",
@@ -330,9 +364,6 @@
         },
         {
           "description": "Intonaco strutturato individuale per superfici caratteristiche."
-        },
-        {
-          "description": "Adesivi murali moderni e scritte secondo i vostri desideri."
         }
       ]
     },
@@ -366,9 +397,6 @@
         },
         {
           "description": "Trattamento preventivo efficace contro la ricorrenza."
-        },
-        {
-          "description": "Deumidificazione professionale e regolazione del clima."
         }
       ]
     },
@@ -410,7 +438,7 @@
     }
   },
   "footer": {
-    "description": "Il vostro partner affidabile per lavori professionali di pittura e ristrutturazione in tutta la Svizzera.",
+    "description": "Il vostro partner affidabile per lavori professionali di pittura e ristrutturazione nella regione di Berna e Soletta.",
     "services": "I Nostri Servizi",
     "quickLinks": "Link Rapidi",
     "contact": "Contatto",
@@ -429,5 +457,46 @@
       "country": "Svizzera"
     },
     "copyright": "© Pintaro.ch. Tutti i diritti riservati."
+  },
+  "impressum": {
+    "title": "Note Legali",
+    "subtitle": "Informazioni secondo la legge svizzera",
+    "company": "Pintaro GmbH",
+    "address": "Kirchbergstrasse 76",
+    "city": "3400 Burgdorf",
+    "country": "Svizzera",
+    "contact": "Contatto",
+    "phone": "Telefono: +41 76 520 35 56",
+    "email": "Email: welcome@pintaro.ch",
+    "management": "Direzione",
+    "manager": "Nasir Selimovic / Flamur Luta",
+    "register": "Registro di Commercio",
+    "registerInfo": "Registro di Commercio Berna",
+    "vatId": "Partita IVA",
+    "vatNumber": "CHE-420.432.221 MWST",
+    "disclaimer": "Esclusione di responsabilità",
+    "disclaimerText": "Nonostante il controllo accurato del contenuto, non assumiamo alcuna responsabilità per il contenuto dei link esterni. I gestori delle pagine collegate sono gli unici responsabili del loro contenuto."
+  },
+  "privacy": {
+    "title": "Informativa sulla Privacy",
+    "subtitle": "Informazioni sul trattamento dei dati secondo il GDPR",
+    "lastUpdated": "Ultimo aggiornamento: Settembre 2024",
+    "intro": "La protezione dei vostri dati personali è importante per noi. In questa informativa sulla privacy vi informiamo sul trattamento dei dati personali durante l'utilizzo del nostro sito web.",
+    "controller": "Responsabile del Trattamento",
+    "controllerInfo": "Pintaro GmbH, Kirchbergstrasse 76, 3400 Burgdorf, Svizzera. Gestione: Nasir Selimovic / Flamur Luta. Email: welcome@pintaro.ch",
+    "dataCollection": "Raccolta Dati",
+    "dataCollectionText": "Raccogliamo dati personali quando utilizzate il nostro modulo di contatto o ci contattate direttamente. Questo include nome, indirizzo email, numero di telefono e il vostro messaggio.",
+    "purpose": "Scopo del Trattamento dei Dati",
+    "purposeText": "I vostri dati vengono utilizzati esclusivamente per elaborare la vostra richiesta e per scopi di contatto. Non vengono condivisi dati con terze parti.",
+    "legalBasis": "Base Giuridica",
+    "legalBasisText": "Il trattamento è basato sul vostro consenso (Art. 6 comma 1 lett. a GDPR) e per l'esecuzione di misure precontrattuali (Art. 6 comma 1 lett. b GDPR).",
+    "storage": "Periodo di Conservazione",
+    "storageText": "I vostri dati verranno cancellati non appena non saranno più necessari per il compimento dello scopo, al massimo dopo 3 anni.",
+    "rights": "I Vostri Diritti",
+    "rightsText": "Avete il diritto all'informazione, correzione, cancellazione, limitazione del trattamento, opposizione e portabilità dei dati. Per esercitare i vostri diritti, contattateci a info@pintaro.ch.",
+    "cookies": "Cookie",
+    "cookiesText": "Il nostro sito web utilizza cookie tecnicamente necessari per il funzionamento. Questi vengono automaticamente cancellati dopo la chiusura del browser.",
+    "contact": "Contatto Privacy",
+    "contactText": "Per domande sulla privacy, contattate: info@pintaro.ch"
   }
 }

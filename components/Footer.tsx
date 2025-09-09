@@ -2,15 +2,16 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook } from 'lucide-react';
 
 type TranslationValue = string | string[] | { [key: string]: unknown };
 
 interface FooterProps {
   messages: Record<string, TranslationValue>;
+  locale?: string;
 }
 
-const Footer = ({ messages }: FooterProps) => {
+const Footer = ({ messages, locale = 'de' }: FooterProps) => {
   const t = (key: string) => {
     const keys = key.split('.');
     let value: unknown = messages.footer;
@@ -36,13 +37,15 @@ const Footer = ({ messages }: FooterProps) => {
     items?.flooring?.title || 'Floor Coverings',
   ];
 
+  const basePath = locale === 'de' ? '' : `/${locale}`;
+
   const quickLinks = [
     { href: '/', label: t('links.home') },
     { href: '#dienstleistungen', label: t('links.services') },
     { href: '#uber-uns', label: t('links.about') },
     { href: '#kontakt', label: t('links.contact') },
-    { href: '/impressum', label: t('links.imprint') },
-    { href: '/datenschutz', label: t('links.privacy') },
+    { href: `${basePath}/impressum`, label: t('links.imprint') },
+    { href: `${basePath}/privacy`, label: t('links.privacy') },
   ];
 
   return (
@@ -67,25 +70,13 @@ const Footer = ({ messages }: FooterProps) => {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.facebook.com/p/Pintaro-100063611643810/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 bg-gray-800 rounded-lg flex items-center justify-center transition-colors hover:bg-[#5ab324]"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-11 h-11 bg-gray-800 rounded-lg flex items-center justify-center transition-colors hover:bg-[#5ab324]"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-11 h-11 bg-gray-800 rounded-lg flex items-center justify-center transition-colors hover:bg-[#5ab324]"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -170,10 +161,10 @@ const Footer = ({ messages }: FooterProps) => {
               <Link href="/agb" className="transition-colors hover:text-[#5ab324]">
                 {t('links.terms')}
               </Link>
-              <Link href="/impressum" className="transition-colors hover:text-[#5ab324]">
+              <Link href={`${basePath}/impressum`} className="transition-colors hover:text-[#5ab324]">
                 {t('links.imprint')}
               </Link>
-              <Link href="/datenschutz" className="transition-colors hover:text-[#5ab324]">
+              <Link href={`${basePath}/privacy`} className="transition-colors hover:text-[#5ab324]">
                 {t('links.privacy')}
               </Link>
             </div>

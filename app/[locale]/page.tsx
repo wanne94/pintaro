@@ -22,10 +22,18 @@ export default async function Home({
         <Hero messages={messages.hero} />
         <Services messages={messages.services} locale={locale} />
         <About messages={messages.about} />
-        <Gallery messages={messages.gallery} locale={locale} />
+        <Gallery messages={messages} locale={locale} />
         <Contact messages={messages.contact} />
       </main>
-      <Footer messages={messages} />
+      <Footer messages={messages} locale={locale} />
     </>
   );
+}
+
+export function generateStaticParams() {
+  return [
+    { locale: 'de' },
+    { locale: 'en' },
+    { locale: 'it' }
+  ];
 }

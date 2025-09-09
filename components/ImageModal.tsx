@@ -117,7 +117,7 @@ const ImageModal = ({
       )}
 
       <div 
-        className="relative max-w-[95vw] sm:max-w-[90vw] max-h-[85vh] sm:max-h-[90vh]"
+        className="relative max-w-[98vw] max-h-[95vh]"
         onClick={(e) => e.stopPropagation()}
         ref={containerRef}
       >
@@ -126,7 +126,7 @@ const ImageModal = ({
           alt={imageAlt}
           width={1920}
           height={1080}
-          className="object-contain max-w-full max-h-[85vh] sm:max-h-[90vh] w-auto h-auto"
+          className="object-contain max-w-full max-h-[95vh] w-auto h-auto"
           priority
         />
         {/* Mobile swipe indicator */}
