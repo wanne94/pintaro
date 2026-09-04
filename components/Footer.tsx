@@ -125,10 +125,6 @@ const Footer = ({ messages, locale = 'de' }: FooterProps) => {
                   <a href="tel:+41765203556" className="transition-colors hover:text-[#5ab324]">
                     +41 76 520 35 56
                   </a>
-                  <br/>
-                  <a href="tel:+41765687422" className="transition-colors hover:text-[#5ab324]">
-                    +41 76 568 74 22
-                  </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">

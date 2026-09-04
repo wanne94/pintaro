@@ -103,7 +103,7 @@ const Contact = ({ messages }: ContactProps) => {
     {
       icon: Phone,
       title: t('info.phone'),
-      content: '+41 76 520 35 56 / +41 76 568 74 22',
+      content: '+41 76 520 35 56',
       link: 'tel:+41765203556',
     },
     {
