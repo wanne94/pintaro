@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # Auto-deploy script - German at root, no prompts
-SERVER_USER="pintaroc"
-SERVER_HOST="116.202.238.104"
-SERVER_PATH="/var/www/vhosts/pintaro.ch/httpdocs"
+# Server: cPanel shared hosting. Shell access is NOT enabled on this account,
+# so uploads go over pure SFTP (lftp) instead of rsync-over-ssh.
+SERVER_HOST="pintaro-cpanel"
+SERVER_PATH="/home/pintaro/public_html"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -99,32 +100,41 @@ ErrorDocument 404 /404.html
 </IfModule>
 EOF
 
-# 3. Clean server
-echo -e "${GREEN}🧹 Cleaning server...${NC}"
-ssh ${SERVER_USER}@${SERVER_HOST} << 'ENDSSH'
-cd /var/www/vhosts/pintaro.ch/httpdocs
-# Remove all except hidden files
-find . -mindepth 1 -maxdepth 1 ! -name '.*' -exec rm -rf {} \; 2>/dev/null
-echo "Server cleaned"
-ENDSSH
+# 3. Upload via SFTP (lftp mirror --reverse --delete)
+# No shell access on the account, so rsync-over-ssh cannot run there;
+# lftp's sftp backend syncs using the SFTP protocol only.
+# Commands go through -f (a script file) rather than -e: multi-line -e strings
+# were observed to silently no-op ("mirror: Not connected") in this environment.
+echo -e "${GREEN}📤 Uploading files (SFTP mirror)...${NC}"
+LFTP_SCRIPT=$(mktemp)
+cat > "$LFTP_SCRIPT" << LFTPEOF
+set sftp:connect-program ssh
+set sftp:auto-confirm yes
+set mirror:parallel-transfer-count 4
+open sftp://${SERVER_HOST}
+mirror --reverse --delete --verbose --exclude-glob '.well-known/' --exclude-glob 'cgi-bin/' --exclude-glob 'cp_errordocument.shtml' --exclude-glob '4??.shtml' --exclude-glob '5??.shtml' --exclude-glob '.htaccess' deploy-temp/ ${SERVER_PATH}/
+bye
+LFTPEOF
+lftp -f "$LFTP_SCRIPT"
+LFTP_EXIT=$?
+rm -f "$LFTP_SCRIPT"
 
-# 4. Upload
-echo -e "${GREEN}📤 Uploading files...${NC}"
-rsync -avz --progress \
-    --exclude '.git' \
-    --exclude 'node_modules' \
-    deploy-temp/ ${SERVER_USER}@${SERVER_HOST}:${SERVER_PATH}/
+if [ $LFTP_EXIT -eq 0 ]; then
+    # 4. Upload .htaccess separately (excluded above so mirror --delete never touches it)
+    echo -e "${GREEN}📤 Uploading .htaccess...${NC}"
+    LFTP_SCRIPT=$(mktemp)
+    cat > "$LFTP_SCRIPT" << LFTPEOF
+set sftp:connect-program ssh
+set sftp:auto-confirm yes
+open sftp://${SERVER_HOST}
+put deploy-temp/.htaccess -o ${SERVER_PATH}/.htaccess
+bye
+LFTPEOF
+    lftp -f "$LFTP_SCRIPT"
+    rm -f "$LFTP_SCRIPT"
 
-if [ $? -eq 0 ]; then
-    # 5. Set permissions
-    echo -e "${GREEN}🔧 Setting permissions...${NC}"
-    ssh ${SERVER_USER}@${SERVER_HOST} << 'ENDSSH'
-cd /var/www/vhosts/pintaro.ch/httpdocs
-chmod 755 .
-find . -type d -exec chmod 755 {} \;
-find . -type f -exec chmod 644 {} \;
-ls -la | head -5
-ENDSSH
+    # Permissions: lftp mirror sets remote perms to match the local source by
+    # default (755 dirs / 644 files here, via umask) — no separate chmod pass needed.
 
     # Cleanup
     rm -rf deploy-temp
