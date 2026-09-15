@@ -118,3 +118,34 @@ rm -rf .next/ out/
 
 *Created: 2025-09-07*
 *Status: ✅ COMPLETED SUCCESSFULLY*
+
+## 2026-09-15: Deploy pintaro.ch on cPanel (host migration fix)
+
+**Context:** `deploy.sh` still targeted the old Plesk VPS (`116.202.238.104`,
+`/var/www/vhosts/pintaro.ch/httpdocs`). The site had since been migrated to
+cPanel shared hosting (`65.21.171.158`, `/home/pintaro/public_html`), so
+deploys had silently stopped landing on production for months.
+
+**Findings:**
+- The cPanel account has **no SSH shell access** — only the SFTP subsystem
+  works. `rsync`/`ssh -c` style remote command execution is not possible.
+- Replaced rsync-over-ssh with `lftp mirror --reverse --delete` over SFTP.
+- `lftp -e "<multi-line string>"` silently failed to connect in this
+  environment ("mirror: Not connected") with no error — switched to
+  `lftp -f <script-file>` (temp file with `open sftp://host` + commands),
+  which is reliable. If touching deploy.sh again, keep using `-f`, not
+  multi-line `-e`.
+- **Incident:** first live run deleted the cPanel `cgi-bin/` directory —
+  the exclude list had a typo (`cpl-bin` instead of `cgi-bin`, copied
+  verbatim from the plan without checking against the actual server
+  listing). Caught it in the transfer log, recreated the empty directory
+  immediately, and fixed the exclude glob in deploy.sh. No known impact
+  (static site, cgi-bin was unused), but a reminder to verify any
+  exclude/delete list against a real directory listing before running
+  `--delete`, not just against a written plan.
+- Dedicated SSH deploy key (`~/.ssh/id_ed25519_pintaro_cpanel`, host alias
+  `pintaro-cpanel`) authorized in cPanel SSH Access for future deploys.
+
+**Result:** Old phone number confirmed gone from the live site, all three
+locales (`de`/`en`/`it`) verified 200, 404 page verified, images verified
+serving. `deploy.sh` fixed on branch `claude/fix-cpanel-deploy`.
